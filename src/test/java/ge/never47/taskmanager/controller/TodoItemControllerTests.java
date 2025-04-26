@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -40,8 +41,12 @@ public class TodoItemControllerTests {
         mockMvc = MockMvcBuilders.standaloneSetup(todoItemController).build();
 
         // Setup mock data
-        todoItemRequestDTO = new TodoItemRequestDTO("Test Title", "Test Description");
-        todoItemResponseDTO = new TodoItemResponseDTO(1L, "Test Title", "Test Description");
+        todoItemRequestDTO
+                = new TodoItemRequestDTO("Test Title", "Test Description", false,
+                LocalDateTime.now());
+        todoItemResponseDTO
+                = new TodoItemResponseDTO(1L, "Test Title", "Test Description", false,
+                LocalDateTime.now());
     }
 
     @Test

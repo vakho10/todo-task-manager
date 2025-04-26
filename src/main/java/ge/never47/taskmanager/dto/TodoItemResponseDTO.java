@@ -1,3 +1,7 @@
 package ge.never47.taskmanager.dto;
 
-public record TodoItemResponseDTO(Long id, String title, String description) {}
+import java.time.LocalDateTime;
+
+public record TodoItemResponseDTO(Long id, String title, String description, boolean completed,
+                                  LocalDateTime deadline) {
+}

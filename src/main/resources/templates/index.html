@@ -4,19 +4,57 @@
       layout:decorate="~{layout.html}">
 <head>
     <title>Todos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="row row-cols-4 g-2">
-        <div class="col" th:each="t : ${todos}">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${t.title()}">Todo Title</h5>
-                    <p class="card-text mb-0" th:text="${t.description()}"></p>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h3>Incomplete Todos</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item d-flex align-items-center" th:each="t : ${todos}"
+            th:if="${!t.completed} and ${t.deadline().isAfter(T(java.time.LocalDateTime).now())}">
+            <span class="badge bg-secondary me-2" th:text="${#temporals.format(t.deadline(), 'yyyy-MM-dd HH:mm')}">Deadline</span>
+            <input class="form-check-input me-2" type="checkbox" th:id="'todo-' + ${t.id}" th:checked="${t.completed}"/>
+            <label class="form-check-label" th:for="'todo-' + ${t.id}">
+                <span th:text="${t.title()}">Todo Title</span> -
+                <span th:text="${t.description()}">Todo Description</span>
+            </label>
+            <button class="btn btn-sm btn-outline-danger ms-auto" th:attr="data-id=${t.id}" title="Delete Todo">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </li>
+    </ul>
+
+    <h3>Completed Todos</h3>
+    <ul class="list-group mb-4">
+        <li class="list-group-item d-flex align-items-center" th:each="t : ${todos}" th:if="${t.completed}">
+            <span class="badge bg-success me-2" th:text="${#temporals.format(t.deadline(), 'yyyy-MM-dd HH:mm')}">Deadline</span>
+            <input class="form-check-input me-2" type="checkbox" th:id="'todo-' + ${t.id}" th:checked="true" disabled/>
+            <label class="form-check-label text-decoration-line-through" th:for="'todo-' + ${t.id}">
+                <span th:text="${t.title()}">Todo Title</span> -
+                <span th:text="${t.description()}">Todo Description</span>
+            </label>
+            <button class="btn btn-sm btn-outline-danger ms-auto" th:attr="data-id=${t.id}" title="Delete Todo">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </li>
+    </ul>
+
+    <h3>Failed Todos</h3>
+    <ul class="list-group">
+        <li class="list-group-item d-flex align-items-center" th:each="t : ${todos}"
+            th:if="${!t.completed} and ${t.deadline().isBefore(T(java.time.LocalDateTime).now())}">
+            <span class="badge bg-danger me-2"
+                  th:text="${#temporals.format(t.deadline(), 'yyyy-MM-dd HH:mm')}">Deadline</span>
+            <input class="form-check-input me-2" type="checkbox" th:id="'todo-' + ${t.id}" th:checked="false" disabled/>
+            <label class="form-check-label text-danger" th:for="'todo-' + ${t.id}">
+                <span th:text="${t.title()}">Todo Title</span> -
+                <span th:text="${t.description()}">Todo Description</span>
+            </label>
+            <button class="btn btn-sm btn-outline-danger ms-auto" th:attr="data-id=${t.id}" title="Delete Todo">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </li>
+    </ul>
 </div>
 </body>
 </html>

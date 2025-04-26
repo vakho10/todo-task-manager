@@ -23,6 +23,8 @@ public class TodoItemServiceImpl implements TodoItemService {
         TodoItem todoItem = new TodoItem();
         todoItem.setTitle(todoItemRequestDTO.title());
         todoItem.setDescription(todoItemRequestDTO.description());
+        todoItem.setCompleted(todoItemRequestDTO.completed());
+        todoItem.setDeadline(todoItemRequestDTO.deadline());
         TodoItem savedItem = todoItemRepository.save(todoItem);
         return toResponseDTO(savedItem);
     }
@@ -57,6 +59,12 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     private TodoItemResponseDTO toResponseDTO(TodoItem todoItem) {
-        return new TodoItemResponseDTO(todoItem.getId(), todoItem.getTitle(), todoItem.getDescription());
+        return new TodoItemResponseDTO(
+                todoItem.getId(),
+                todoItem.getTitle(),
+                todoItem.getDescription(),
+                todoItem.isCompleted(),
+                todoItem.getDeadline()
+        );
     }
 }

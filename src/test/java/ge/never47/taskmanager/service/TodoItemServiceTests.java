@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +35,8 @@ public class TodoItemServiceTests {
         todoItem.setTitle("Test Title");
         todoItem.setDescription("Test Description");
 
-        todoItemRequestDTO = new TodoItemRequestDTO("Test Title", "Test Description");
+        todoItemRequestDTO = new TodoItemRequestDTO(
+                "Test Title", "Test Description", false, LocalDateTime.now());
     }
 
     @Test
