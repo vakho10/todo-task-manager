@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Todos</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row row-cols-4 g-2">
+        <div class="col" th:each="t : ${todos}">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${t.title()}">Todo Title</h5>
+                    <p class="card-text mb-0" th:text="${t.description()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
